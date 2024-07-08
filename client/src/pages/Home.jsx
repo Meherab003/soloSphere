@@ -1,7 +1,10 @@
+import Carousol from '../components/Carousol'
+import TabCategories from '../components/TabCategories';
 const Home = () => {
     return (
         <div>
-            Home
+            <Carousol></Carousol>
+            <TabCategories></TabCategories>
         </div>
     );
 };
