@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 
@@ -35,6 +35,22 @@ const client = new MongoClient(uri, {
          const result = await jobsCollection.find().toArray()
 
          res.send(result)
+      })
+
+      //get a single data from db using job id
+      app.get('/job/:id', async (req, res) => {
+        const id = req.params.id
+        const query = {_id: new ObjectId(id)}
+        const result = await jobsCollection.findOne(query)
+        res.send(result)
+      })
+      
+      //Save bid date in the db
+      app.post('/bid', async(req, res) => {
+        const bidData = req.body;
+        // console.log(bidData);
+        const result = await bidsCollection.insertOne(bidData);
+        res.send(result)
       })
       // Send a ping to confirm a successful connection
       await client.db("admin").command({ ping: 1 });
